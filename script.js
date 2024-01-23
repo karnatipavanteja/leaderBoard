@@ -1,104 +1,150 @@
 
 
+function refreshDat(){
+    let list = document.querySelector(".list");
+    data.sort((p1,p2)=>Number(p2.score)-Number(p1.score))
+    
+  list.innerHTML=""
+  for (let i = 0; i < data.length; i++) {
+    let currentPlayer=data[i];
 
-const PlayersList = []
 
-function addPlayer (event){
+    let dataRow = document.createElement("li");
+    let fullName = document.createElement("span");
+    // let sName=document.createElement("span")
+    let countryData = document.createElement("span");
+    let scoreData = document.createElement("span");
+    let incBtn = document.createElement("button");
+    let decBtn = document.createElement("button");
+    let deleteBtn = document.createElement("button");
+    let buttonContainer=document.createElement("div")
 
-    event.preventDefault()
 
-    const playerList = document.getElementById('player-list')
+    buttonContainer.classList.add("button_container")
+    incBtn.classList.add("btn")
+    decBtn.classList.add("btn")
+    deleteBtn.classList.add("btn")
 
-    const firstName = document.getElementById('first-name').value
-    const lastName = document.getElementById('last-name').value
-    const country = document.getElementById('country').value
-    const score = document.getElementById('score').value
 
-    const playerData = { name: firstName + " " + lastName, 
-        country: country,
-        score: Number(score)
-    }
+    
 
-    PlayersList.push(playerData)
-    PlayersList.sort( (player1, player2) => parseInt(player2.score) - parseInt(player1.score) )
+    fullName.innerText = currentPlayer.name;
+    countryData.innerText = currentPlayer.country;
+    scoreData.innerText = currentPlayer.score;
+    incBtn.innerText="+5"
+    decBtn.innerText="-5"
+    deleteBtn.innerHTML=`<i class="fa-solid fa-trash"></i`
+    
 
-    playerList.innerHTML = ''
-    for (let index = 0; index < PlayersList.length; index++) {
-        const player = PlayersList[index];
-
-        const liEl = document.createElement('li')
-        const nameContent = document.createElement('span')
-        const countryContent = document.createElement('span')
-        const curentScore = document.createElement('span')
-
-        
-
-        const increaseScore = document.createElement('button')
-        const decreaseScore = document.createElement('button')
-
-        increaseScore.innerText = 'Increase'
-        decreaseScore.innerText = 'Decrease'
-        increaseScore.setAttribute('onclick', `increaseScoreHandler(${index})`)
-        decreaseScore.setAttribute('onclick', `decreaseScoreHandler(${index})`)
 
         
-        curentScore.innerText = player.score
-        countryContent.innerText = player.country
-        nameContent.innerText = player.name
 
-        liEl.append(nameContent, countryContent, curentScore, increaseScore, decreaseScore)
-        playerList.append(liEl)
-        
-    }
+    buttonContainer.append(incBtn,deleteBtn,decBtn)
+    dataRow.append(fullName, countryData, scoreData, buttonContainer);
+    list.append(dataRow);
 
+    
+
+
+    incBtn.setAttribute("onclick",`increase(${i})`)
+    decBtn.setAttribute("onclick",`decrese(${i})`)
+    deleteBtn.setAttribute("onclick",`deleteEle(${i})`)
+    // console.log(fullName ,countryData,scoreData)
+
+    // console.log(list);
 }
-
-function refreshList () {
-
-    const playerList = document.getElementById('player-list')
-    PlayersList.sort( (player1, player2) => parseInt(player2.score) - parseInt(player1.score) )
-
-    playerList.innerHTML = ''
-    for (let index = 0; index < PlayersList.length; index++) {
-        const player = PlayersList[index];
-
-        const liEl = document.createElement('li')
-        const nameContent = document.createElement('span')
-        const countryContent = document.createElement('span')
-        const curentScore = document.createElement('span')
-
-        
-
-        const increaseScore = document.createElement('button')
-        const decreaseScore = document.createElement('button')
-
-        increaseScore.innerText = 'Increase'
-        decreaseScore.innerText = 'Decrease'
-        increaseScore.setAttribute('onclick', `increaseScoreHandler(${index})`)
-        decreaseScore.setAttribute('onclick', `decreaseScoreHandler(${index})`)
-
-        
-        curentScore.innerText = player.score
-        countryContent.innerText = player.country
-        nameContent.innerText = player.name
-
-        liEl.append(nameContent, countryContent, curentScore, increaseScore, decreaseScore)
-        playerList.append(liEl)
-        
-    }
-}
-
-function increaseScoreHandler (index) {
-
-    PlayersList[index].score += 5
-    refreshList()
-
-
 }
 
 
-function decreaseScoreHandler (index) {
-    PlayersList[index].score -= 5
-    refreshList()
+
+function increase(index){
+    data[index].score+=5
+    refreshDat()
 }
 
+function decrese(index){
+    data[index].score-=5
+    refreshDat()
+}
+function deleteEle(index){
+    data.splice(index,1)
+    refreshDat()
+}
+
+let data = [];
+
+function addPlayer() {
+  let firstName = document.querySelector(".first-name").value;
+  let secondName = document.querySelector(".second-name").value;
+  let country = document.querySelector(".country").value;
+  let score = document.querySelector(".score").value;
+  let list = document.querySelector(".list");
+
+  let palayerData = {
+    name: firstName + " " + secondName,
+    country: country,
+    score: Number(score),
+  };
+
+
+
+  data.push(palayerData);
+
+  document.querySelector(".first-name").value=""
+  document.querySelector(".second-name").value=""
+  document.querySelector(".country").value=""
+  document.querySelector(".score").value=""
+
+
+  data.sort((p1,p2)=>Number(p2.score)-Number(p1.score))
+
+
+  list.innerHTML=""
+  for (let i = 0; i < data.length; i++) {
+    let currentPlayer=data[i];
+
+
+    let dataRow = document.createElement("li");
+    let fullName = document.createElement("span");
+    // let sName=document.createElement("span")
+    let countryData = document.createElement("span");
+    let scoreData = document.createElement("span");
+    let buttonContainer=document.createElement("div")
+    let incBtn = document.createElement("button");
+    let decBtn = document.createElement("button");
+    let deleteBtn = document.createElement("button");
+
+    buttonContainer.classList.add("button_container")
+    incBtn.classList.add("btn")
+    decBtn.classList.add("btn")
+    deleteBtn.classList.add("btn")
+
+
+    
+
+    fullName.innerText = currentPlayer.name;
+    countryData.innerText = currentPlayer.country;
+    scoreData.innerText = currentPlayer.score;
+    incBtn.innerText="+5"
+    decBtn.innerText="-5"
+    deleteBtn.innerHTML=`<i class="fa-solid fa-trash"></i`
+    
+
+
+        
+    buttonContainer.append(incBtn,deleteBtn,decBtn)
+    dataRow.append(fullName, countryData, scoreData, buttonContainer);
+    list.append(dataRow);
+
+
+    incBtn.setAttribute("onclick",`increase(${i})`)
+    decBtn.setAttribute("onclick",`decrese(${i})`)
+    deleteBtn.setAttribute("onclick",`deleteEle(${i})`)
+    // console.log(fullName ,countryData,scoreData)
+
+    // console.log(list);
+  }
+}
+
+let btn = document.querySelector(".add-player");
+btn.addEventListener("click", addPlayer);
